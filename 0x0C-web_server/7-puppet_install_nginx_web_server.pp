@@ -1,4 +1,4 @@
-#puppet manif3st to installl and configure nginx server
+#puppet manifest to installl and configure nginx server
 
 package { "nginx":
   ensire => 'installed',
@@ -15,8 +15,14 @@ file { '/etc/nginx/sites-available/default':
                 return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
         }
 	}
-}	
+}
 
+file { '/etc/nginx/sites-enabled/default':
+  ensure => link,
+  target => '/etc/nginx/sites-available/default',
+  require => File['/etc/nginx/sites-available/default'],
+}
+	
 service { 'nginx':
   ensure => running,
   enable => true

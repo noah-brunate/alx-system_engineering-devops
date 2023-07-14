@@ -1,33 +1,24 @@
-#puppet manifest to installl and configure nginx server
+# Script to install nginx using puppet
 
-package { "nginx":
-  ensure => 'installed',
+package {'nginx':
+  ensure => 'present',
 }
 
-file { '/etc/nginx/sites-available/default':
-  ensure => present,
-  content => server {
-	listen 80 default_server;
-        listen [::]:80 default_server;
-        root /var/www/html;
-        index index.html;
-        location /redirect_me {
-                return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
-        }
-	}
+exec {'install':
+  command => 'sudo apt-get update ; sudo apt-get -y install nginx',
+  provider => shell,
 }
 
-file { '/etc/nginx/sites-enabled/default':
-  ensure => link,
-  target => '/etc/nginx/sites-available/default',
-  require => File['/etc/nginx/sites-available/default'],
+exec {'hello':
+  command => 'sudo echo "Hello World!" | sudo tee /var/www/html/index.html',
+  provider => shell,
 }
-	
-service { 'nginx':
-  ensure => running,
-  enable => true
-  require => [
-	package['nginx'],
-	file['/etc/nginx/sites-enabled/default'],
-	]
+
+exec {'sudo sed -i "s/listen 80 default_server;/listen 80 default_server;\\n\\tlocation \/redirect_me {\\n\\t\\treturn 301 https:\/\/blog.ehoneahobed.com\/;\\n\\t}/" /etc/nginx/sites-available/default':
+  provider => shell,
+}
+
+exec {'run':
+  commamd => 'sudo service nginx restart',
+  provider = shell,
 }

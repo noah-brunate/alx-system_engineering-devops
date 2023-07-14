@@ -1,7 +1,7 @@
 #puppet manifest to installl and configure nginx server
 
 package { "nginx":
-  ensire => 'installed',
+  ensure => 'installed',
 }
 
 file { '/etc/nginx/sites-available/default':

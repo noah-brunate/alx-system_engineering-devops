@@ -40,11 +40,11 @@ frontend blue-frontend
 	default_backend blue-backend
 
 frontend blue-frontend-https
-	bind *:443 ssl crt /etc/haproxy/certs/www.blue.tech.pem
+	bind *:443 ssl crt /etc/haproxy/certs/www.netblue.tech.pem
 	http-request set-header X-Forwarded-Proto https
-	defaul_backend blue-backend
+	default_backend blue-backend
 
-bachend blue-backend
+backend blue-backend
 	balance roundrobin
-	server 66878-web-01 54.237.15.47 check
-	server 66878-web-02 100.25.142.198 check
+	server 66878-web-01 54.237.15.47:80 check
+	server 66878-web-02 100.25.142.198:80 check

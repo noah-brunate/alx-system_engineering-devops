@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """Python script to export data in the CSV format"""
 
-import request
+import requests
 import sys
 
 
@@ -10,11 +10,11 @@ if __name__ == '__main__':
     url = "https://jsonplaceholder.typicode.com/users"
     empUlr = url + '/' + empId
 
-    response = request.get(empUrl)
+    response = requests.get(empUrl)
     empName = response.json().get('username')
 
     todoUrl = url + '/todos'
-    resp = request.get(todoUrl)
+    resp = requests.get(todoUrl)
     tasks = resp.json()
 
     with open('{}.csv'.format(empId), 'w') as file:

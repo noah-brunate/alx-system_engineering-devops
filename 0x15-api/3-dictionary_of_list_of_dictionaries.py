@@ -27,8 +27,7 @@ if __name__ == '__main__':
         for task in tasks:
             tod_list[m].append({"username": username,
                                 "task": task.get('title'),
-                                "completed": task.get('completed')
-                               })
+                                "completed": task.get('completed')})
 
     with open('todo_all_employees.json', 'w') as file:
         json.dump(tod_list, file)

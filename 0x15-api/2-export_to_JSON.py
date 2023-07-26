@@ -1,29 +1,29 @@
 #!/usr/bin/python3
-"""Python script to export data in the CSV format"""
+"""Accessing a REST API for todo lists of employees"""
 
+import json
 import requests
 import sys
-import json
 
 
 if __name__ == '__main__':
-    empId = sys.argv[1]
-    url = "https://jsonplaceholder.typicode.com/users"
-    empUlr = url + '/' + empId
+    employeeId = sys.argv[1]
+    baseUrl = "https://jsonplaceholder.typicode.com/users"
+    url = baseUrl + "/" + employeeId
 
-    response = requests.get(empUrl)
-    empName = response.json().get('username')
+    response = requests.get(url)
+    username = response.json().get('username')
 
-    todoUrl = url + '/todos'
-    resp = requests.get(todoUrl)
-    tasks = resp.json()
+    todoUrl = url + "/todos"
+    response = requests.get(todoUrl)
+    tasks = response.json()
 
-    dictionary = {empId: []}
+    dictionary = {employeeId: []}
     for task in tasks:
-        dictionary[empId].append({
+        dictionary[employeeId].append({
             "task": task.get('title'),
             "completed": task.get('completed'),
-            "username": empName})
-
-    with open('{}.json'.format(empId), 'w') as file:
-        json.dump(dictionary, file)
+            "username": username
+        })
+    with open('{}.json'.format(employeeId), 'w') as filename:
+        json.dump(dictionary, filename)
